@@ -2,6 +2,7 @@
 """Generate deterministic, fictional EchoTrace 2 forensic training evidence."""
 from pathlib import Path
 import csv, hashlib, json, zipfile
+from enrich_case import enrich
 from datetime import datetime, timezone
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -62,9 +63,9 @@ def main():
 2026-09-22T02:13:05Z restore-node audit[2201]: EXECVE exe=/usr/local/bin/verify_restore args=--snapshot SNAP-0922-X
 """)
     csvwrite("network/flows.csv", [
-        ["utc","src_ip","dst_ip","proto","dst_port","bytes","purpose"],
-        ["2026-09-22T02:06:51Z","192.0.2.47","198.51.100.24","HTTPS","443","8142","catalog-upload"],
-        ["2026-09-22T02:10:01Z","192.0.2.18","192.0.2.60","SSH","22","1920","restore-session"]
+        ["utc","src_ip","dst_ip","proto","dst_port","bytes","flow_id"],
+        ["2026-09-22T02:06:51Z","192.0.2.47","198.51.100.24","HTTPS","443","8142","FLOW-1201"],
+        ["2026-09-22T02:10:01Z","192.0.2.18","192.0.2.60","SSH","22","1920","FLOW-1202"]
     ])
     csvwrite("network/dns.csv", [
         ["utc","client_ip","query","answer"],
@@ -80,6 +81,8 @@ ALL DATA IS SYNTHETIC. Timeline is UTC. The approved CHG-2408 covers only weekly
 Events are simplified CSV training exports, NOT native Windows EVTX or a packet capture.
 Do not attribute any activity to AI without independent evidence.
 """)
+    write("EDUCATIONAL_USE_NOTICE.txt", "EXCLUSIVELY FOR EDUCATIONAL AND AUTHORIZED FORENSIC TRAINING. All entities, identities, infrastructure and incidents are fictional or synthetic. No real victim or compromise is represented. Use only isolated lab systems.\\n")
+    enrich(ART)
     manifest = {}
     for p in sorted(ART.rglob("*")):
         if p.is_file():
