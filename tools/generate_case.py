@@ -22,6 +22,9 @@ def sha(data):
     return hashlib.sha256(data).hexdigest()
 
 def main():
+    if ART.exists():
+        import shutil
+        shutil.rmtree(ART)
     ART.mkdir(parents=True, exist_ok=True)
     # Reserved documentation addresses and a fictional example domain.
     csvwrite("identity/signins.csv", [
@@ -81,7 +84,7 @@ ALL DATA IS SYNTHETIC. Timeline is UTC. The approved CHG-2408 covers only weekly
 Events are simplified CSV training exports, NOT native Windows EVTX or a packet capture.
 Do not attribute any activity to AI without independent evidence.
 """)
-    write("EDUCATIONAL_USE_NOTICE.txt", "EXCLUSIVELY FOR EDUCATIONAL AND AUTHORIZED FORENSIC TRAINING. All entities, identities, infrastructure and incidents are fictional or synthetic. No real victim or compromise is represented. Use only isolated lab systems.\\n")
+    write("EDUCATIONAL_USE_NOTICE.txt", "EXCLUSIVELY FOR EDUCATIONAL AND AUTHORIZED FORENSIC TRAINING. All entities, identities, infrastructure and incidents are fictional or synthetic. No real victim or compromise is represented. Use only isolated lab systems.\n")
     enrich(ART)
     manifest = {}
     for p in sorted(ART.rglob("*")):
@@ -91,7 +94,11 @@ Do not attribute any activity to AI without independent evidence.
     (OUT/"evidence_manifest.json").write_text(json.dumps({"case":"EchoTrace-2","synthetic":True,"files":manifest},indent=2)+"\n",encoding="utf-8")
     with zipfile.ZipFile(OUT/"artifacts.zip","w",compression=zipfile.ZIP_DEFLATED) as z:
         for p in sorted(ART.rglob("*")):
-            if p.is_file(): z.write(p,p.relative_to(ART).as_posix())
+            if p.is_file():
+                info=zipfile.ZipInfo(p.relative_to(ART).as_posix(),date_time=(2026,9,22,0,0,0))
+                info.compress_type=zipfile.ZIP_DEFLATED
+                info.external_attr=0o644 << 16
+                z.writestr(info,p.read_bytes())
     print("Generated",len(manifest),"artifacts and artifacts.zip")
 
 if __name__ == "__main__":
