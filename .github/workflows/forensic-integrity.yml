@@ -3,6 +3,8 @@ on:
   push:
     paths:
       - 'tools/**'
+      - 'questions/**'
+      - 'instructor/ANSWER_KEY_FINAL.md'
       - '.github/workflows/forensic-integrity.yml'
   pull_request:
   workflow_dispatch:
@@ -27,6 +29,10 @@ jobs:
         run: python tools/verify_case.py
       - name: Cross-check backup evidence
         run: python tools/validate_backup_consistency.py
+      - name: Validate question mappings
+        run: python tools/validate_questions.py
+      - name: Reproduce all 20 answers
+        run: python tools/verify_answers.py
       - name: Verify deterministic regeneration
         run: |
           sha256sum build/artifacts.zip > /tmp/first.sha
