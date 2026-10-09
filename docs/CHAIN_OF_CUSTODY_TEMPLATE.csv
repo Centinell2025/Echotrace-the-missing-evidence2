@@ -1,0 +1,2 @@
+evidence_id,artifact_path,source_system,acquired_utc,acquisition_method,collector,tool_version,sha256,derived_from,notes
+E2-001,identity/signins.csv,fictional-idp,2026-09-22T03:00:00Z,synthetic-generator,training-author,1.0,,,"TRAINING TEMPLATE: hash must be computed after generation"
