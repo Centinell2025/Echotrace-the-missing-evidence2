@@ -19,6 +19,10 @@ jobs:
           python-version: '3.12'
       - name: Generate evidence
         run: python tools/generate_case.py
+      - name: Check educational disclaimer in student archive
+        run: |
+          unzip -l build/artifacts.zip | grep EDUCATIONAL_USE_NOTICE.txt
+          unzip -p build/artifacts.zip EDUCATIONAL_USE_NOTICE.txt | grep 'EDUCATIONAL AND AUTHORIZED'
       - name: Verify evidence
         run: python tools/verify_case.py
       - name: Verify deterministic regeneration
