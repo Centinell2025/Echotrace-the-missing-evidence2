@@ -40,7 +40,7 @@ def enrich(art: Path):
     def jsonlines(name, items):
         p=art/name
         p.parent.mkdir(parents=True,exist_ok=True)
-        p.write_text("".join(json.dumps(x,sort_keys=True)+"\\n" for x in items),encoding="utf-8")
+        p.write_text("".join(json.dumps(x,sort_keys=True)+"\n" for x in items),encoding="utf-8")
     jsonlines("windows/sysmon_operational.jsonl",[
         {"UtcTime":"2026-09-22 02:01:44.000","EventID":1,"Computer":"OPS-WS-07","User":"NT AUTHORITY\\\\SYSTEM","Image":"C:\\\\Windows\\\\System32\\\\svchost.exe","ProcessGuid":"{FAKE-0001}","CommandLine":"svchost.exe -k netsvcs","synthetic":True},
         {"UtcTime":"2026-09-22 02:05:48.000","EventID":1,"Computer":"OPS-WS-07","User":"LAB\\\\mara.ellis","Image":"C:\\\\Windows\\\\System32\\\\WindowsPowerShell\\\\v1.0\\\\powershell.exe","ProcessGuid":"{FAKE-0002}","ParentImage":"C:\\\\Windows\\\\explorer.exe","CommandLine":"powershell.exe -NoProfile -File C:\\\\Lab\\\\scripts\\\\check_catalog.ps1","synthetic":True},
@@ -83,8 +83,8 @@ def enrich(art: Path):
         {"acquired_utc":"2026-09-22T04:06:00Z","collector":"LAB-IR-01","source":"LAB-NET-01","method":"synthetic-export","evidence":"network/zeek_conn_export.csv","case":"EchoTrace-2","synthetic":True}
     ])
     (art/"provenance"/"LIMITATIONS.txt").write_text(
-        "All evidence is fabricated for an isolated educational exercise.\\n"
-        "Sysmon, Windows Security, auditd, Zeek and USN files are structured synthetic exports, not native EVTX, PCAP, $UsnJrnl or auditd logs.\\n"
-        "The synthetic acquisition log is NOT a real chain-of-custody record.\\n"
-        "Network byte counts and TLS metadata do not prove exfiltration.\\n",
+        "All evidence is fabricated for an isolated educational exercise.\n"
+        "Sysmon, Windows Security, auditd, Zeek and USN files are structured synthetic exports, not native EVTX, PCAP, $UsnJrnl or auditd logs.\n"
+        "The synthetic acquisition log is NOT a real chain-of-custody record.\n"
+        "Network byte counts and TLS metadata do not prove exfiltration.\n",
         encoding="utf-8")
