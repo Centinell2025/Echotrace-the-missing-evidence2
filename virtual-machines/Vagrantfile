@@ -1,0 +1,34 @@
+# EchoTrace 2 - isolated educational Linux lab. Requires Vagrant + VirtualBox.
+# No internet bridging or malicious payloads. Windows hosts require licensed images separately.
+Vagrant.configure("2") do |config|
+  config.vm.define "restore-node" do |node|
+    node.vm.box = "ubuntu/jammy64"
+    node.vm.hostname = "restore-node"
+    node.vm.network "private_network", ip: "192.168.56.60"
+    node.vm.provider "virtualbox" do |vb|
+      vb.memory = 2048
+      vb.cpus = 2
+      vb.name = "EchoTrace2-RESTORE-NODE"
+    end
+    node.vm.provision "shell", inline: <<-SHELL
+      set -eu
+      mkdir -p /opt/echotrace2
+      printf '%s\n' 'Synthetic educational forensic lab. No real victim data.' > /opt/echotrace2/NOTICE.txt
+    SHELL
+  end
+  config.vm.define "analyst" do |node|
+    node.vm.box = "ubuntu/jammy64"
+    node.vm.hostname = "analyst"
+    node.vm.network "private_network", ip: "192.168.56.50"
+    node.vm.provider "virtualbox" do |vb|
+      vb.memory = 4096
+      vb.cpus = 2
+      vb.name = "EchoTrace2-ANALYST"
+    end
+    node.vm.provision "shell", inline: <<-SHELL
+      set -eu
+      mkdir -p /opt/echotrace2
+      printf '%s\n' 'Use only synthetic evidence in an authorized lab.' > /opt/echotrace2/NOTICE.txt
+    SHELL
+  end
+end
