@@ -1,17 +1,36 @@
-# EchoTrace — The Missing Evidence 2
+# EchoTrace 2 — The Phantom Restore
 
-**Status:** In development — not submitted or approved by Hack The Box.
+**Status:** Educational fictional DFIR Sherlock candidate. Not submitted, approved or published by Hack The Box.
 
-A fictional digital-forensics Sherlock training scenario designed as a sequel to *EchoTrace — The Missing Evidence*. The fictional organization, staff, hostnames and timeline must be reconciled with Episode 1 before the final evidence set is generated.
+## Scenario
+Investigate a suspicious backup-catalog modification by correlating synthetic Windows security-event exports, Linux authentication records, identity sign-ins, DNS and network flow observations, immutable backup inventory, restore dry runs, clock references and change approvals.
 
-## Planned investigation
-An investigator correlates Windows event logs, Linux authentication records, network captures, and evidence-integrity records to reconstruct a simulated incident. All logs and identities will be generated for training, with unique answers verifiable from the artifacts.
+All people, organizations, domains, hosts, IP addresses and incident events are fictional or synthetic. This is not a real-world incident report.
 
-## Planned deliverables
-- `artifacts.zip`: self-contained synthetic evidence
-- `questions.md`: evidence-grounded investigation questions
-- `walkthrough.pdf`: reproducible instructor solution (keep private)
-- `evidence_manifest.json`: hashes and provenance
-- `SIMULATION_NOTICE.md`: synthetic-data declaration
+## Repository map
+- [Student questions (20)](questions/STUDENT_QUESTIONS.md)
+- [Synthetic evidence generator](tools/generate_case.py)
+- [Evidence hash verifier](tools/verify_case.py)
+- [Answer verifier](tools/verify_answers.py)
+- [Instructor index — restricted access](instructor/HTB_REVIEWER_INDEX.md)
+- [Virtual machine setup](virtual-machines/Vagrantfile)
+- [Educational use and ethics](EDUCATIONAL_USE_AND_ETHICS.md)
+- [Submission preparation](docs/HTB_SUBMISSION_FILES.md)
 
-**Important:** These deliverables are planned, not yet present. No reward tier, approval, or payout is guaranteed.
+## Local checks
+Run from the repository root:
+
+```bash
+python3 tools/generate_case.py
+python3 tools/verify_case.py
+python3 tools/validate_backup_consistency.py
+python3 tools/validate_questions.py
+python3 tools/verify_answers.py
+```
+
+These scripts generate evidence in `build/artifacts/` and verify integrity and 20 canonical answers. Student evidence must not include instructor solutions. GitHub Actions workflow configuration exists, but a passing remote workflow run must be independently verified.
+
+## Release limitations
+The current evidence is synthetic CSV, text and JSON, not native EVTX, PCAP or full disk images. VM boot tests, independent blind playtesting, reviewer download accessibility and the claimed Insane difficulty remain unverified. The HTB submission form may require a password-protected ZIP for student distribution; the source repository itself remains uncompressed.
+
+**Do not publish instructor answers or private walkthroughs in a public repository.**
