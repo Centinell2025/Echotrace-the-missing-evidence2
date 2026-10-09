@@ -1,0 +1,182 @@
+[
+  {
+    "id": "Q01",
+    "prompt": "What UTC timestamp records the catalog write on BKP-CTRL-01?",
+    "answer": "2026-09-22T02:07:19Z",
+    "primary_artifact": "windows/security_events.csv",
+    "cross_check": "storage/file_metadata.csv",
+    "reproduce": "Inspect windows/security_events.csv; filter the record described by Q01 and corroborate using storage/file_metadata.csv.",
+    "uniqueness_rationale": "4663 WRITE record on backup controller"
+  },
+  {
+    "id": "Q02",
+    "prompt": "Which account is recorded on the catalog WRITE event?",
+    "answer": "mara.ellis",
+    "primary_artifact": "windows/security_events.csv",
+    "cross_check": "identity/signins.csv",
+    "reproduce": "Inspect windows/security_events.csv; filter the record described by Q02 and corroborate using identity/signins.csv.",
+    "uniqueness_rationale": "Account in the unique catalog WRITE row"
+  },
+  {
+    "id": "Q03",
+    "prompt": "Which workstation is associated with the recorded interactive sign-in of that account?",
+    "answer": "OPS-WS-07",
+    "primary_artifact": "identity/signins.csv",
+    "cross_check": "windows/security_events.csv",
+    "reproduce": "Inspect identity/signins.csv; filter the record described by Q03 and corroborate using windows/security_events.csv.",
+    "uniqueness_rationale": "Unique interactive sign-in host; does not establish physical operator"
+  },
+  {
+    "id": "Q04",
+    "prompt": "Which Windows event ID is recorded for the successful interactive sign-in?",
+    "answer": "4624",
+    "primary_artifact": "windows/security_events.csv",
+    "cross_check": "identity/signins.csv",
+    "reproduce": "Inspect windows/security_events.csv; filter the record described by Q04 and corroborate using identity/signins.csv.",
+    "uniqueness_rationale": "Event ID on OPS-WS-07 interactive logon"
+  },
+  {
+    "id": "Q05",
+    "prompt": "Which change request is cited for snapshot SNAP-0922-X in the recovery catalog?",
+    "answer": "CHG-2408",
+    "primary_artifact": "recovery/catalog.csv",
+    "cross_check": "change_control/approvals.csv",
+    "reproduce": "Inspect recovery/catalog.csv; filter the record described by Q05 and corroborate using change_control/approvals.csv.",
+    "uniqueness_rationale": "Approval field on snapshot row"
+  },
+  {
+    "id": "Q06",
+    "prompt": "Which change request explicitly rejected catalog replacement?",
+    "answer": "CHG-2411",
+    "primary_artifact": "change_control/approvals.csv",
+    "cross_check": "case_context.txt",
+    "reproduce": "Inspect change_control/approvals.csv; filter the record described by Q06 and corroborate using case_context.txt.",
+    "uniqueness_rationale": "Rejected change with catalog replacement scope"
+  },
+  {
+    "id": "Q07",
+    "prompt": "Which snapshot is marked VERIFIED in the catalog but absent from the immutable inventory?",
+    "answer": "SNAP-0922-X",
+    "primary_artifact": "recovery/catalog.csv",
+    "cross_check": "recovery/immutable_inventory.csv",
+    "reproduce": "Inspect recovery/catalog.csv; filter the record described by Q07 and corroborate using recovery/immutable_inventory.csv.",
+    "uniqueness_rationale": "Set difference restricted to VERIFIED snapshots"
+  },
+  {
+    "id": "Q08",
+    "prompt": "Which ledger snapshot has a PASS in both immutable inventory and restore dry run?",
+    "answer": "SNAP-0919-A",
+    "primary_artifact": "recovery/immutable_inventory.csv",
+    "cross_check": "recovery/restore_dry_run.csv",
+    "reproduce": "Inspect recovery/immutable_inventory.csv; filter the record described by Q08 and corroborate using recovery/restore_dry_run.csv.",
+    "uniqueness_rationale": "Intersection of two PASS records"
+  },
+  {
+    "id": "Q09",
+    "prompt": "Which snapshot has MISSING_OBJECT in object integrity checks?",
+    "answer": "SNAP-0922-X",
+    "primary_artifact": "recovery/object_integrity_checks.csv",
+    "cross_check": "recovery/object_chunks.json",
+    "reproduce": "Inspect recovery/object_integrity_checks.csv; filter the record described by Q09 and corroborate using recovery/object_chunks.json.",
+    "uniqueness_rationale": "Exact status row"
+  },
+  {
+    "id": "Q10",
+    "prompt": "Which dataset is associated with the successful isolated restore dry run?",
+    "answer": "ledger",
+    "primary_artifact": "recovery/restore_dry_run.csv",
+    "cross_check": "recovery/catalog.csv",
+    "reproduce": "Inspect recovery/restore_dry_run.csv; filter the record described by Q10 and corroborate using recovery/catalog.csv.",
+    "uniqueness_rationale": "Dataset on unique PASS dry run"
+  },
+  {
+    "id": "Q11",
+    "prompt": "Which dataset has a failed restore dry run due to a missing chunk?",
+    "answer": "hr",
+    "primary_artifact": "recovery/restore_dry_run.csv",
+    "cross_check": "recovery/immutable_inventory.csv",
+    "reproduce": "Inspect recovery/restore_dry_run.csv; filter the record described by Q11 and corroborate using recovery/immutable_inventory.csv.",
+    "uniqueness_rationale": "Exact detail chunk missing"
+  },
+  {
+    "id": "Q12",
+    "prompt": "What is the observed clock offset in seconds for OPS-WS-07?",
+    "answer": "30",
+    "primary_artifact": "time/clock_reference.csv",
+    "cross_check": "time/README.txt",
+    "reproduce": "Inspect time/clock_reference.csv; filter the record described by Q12 and corroborate using time/README.txt.",
+    "uniqueness_rationale": "offset_seconds observed minus trusted"
+  },
+  {
+    "id": "Q13",
+    "prompt": "What is the flow ID for the HTTPS connection from 192.0.2.47 to 198.51.100.24?",
+    "answer": "FLOW-1201",
+    "primary_artifact": "network/flows.csv",
+    "cross_check": "network/proxy_observations.csv",
+    "reproduce": "Inspect network/flows.csv; filter the record described by Q13 and corroborate using network/proxy_observations.csv.",
+    "uniqueness_rationale": "Unique matching flow tuple; does not prove payload"
+  },
+  {
+    "id": "Q14",
+    "prompt": "Which DNS name resolved to 198.51.100.24 immediately before that HTTPS flow?",
+    "answer": "catalog-sync.example",
+    "primary_artifact": "network/dns.csv",
+    "cross_check": "network/flows.csv",
+    "reproduce": "Inspect network/dns.csv; filter the record described by Q14 and corroborate using network/flows.csv.",
+    "uniqueness_rationale": "DNS row preceding flow timestamp"
+  },
+  {
+    "id": "Q15",
+    "prompt": "Which Linux executable appears in the restore verification audit EXECVE record?",
+    "answer": "/usr/local/bin/verify_restore",
+    "primary_artifact": "linux/auth.log",
+    "cross_check": "recovery/restore_dry_run.csv",
+    "reproduce": "Inspect linux/auth.log; filter the record described by Q15 and corroborate using recovery/restore_dry_run.csv.",
+    "uniqueness_rationale": "Executable in EXECVE line; no proof of process ancestry"
+  },
+  {
+    "id": "Q16",
+    "prompt": "What is the scheduled job ID for weekly restore verification?",
+    "answer": "JOB-014",
+    "primary_artifact": "scheduler/job_baseline.csv",
+    "cross_check": "change_control/approvals.csv",
+    "reproduce": "Inspect scheduler/job_baseline.csv; filter the record described by Q16 and corroborate using change_control/approvals.csv.",
+    "uniqueness_rationale": "Unique baseline job"
+  },
+  {
+    "id": "Q17",
+    "prompt": "What scope was authorized under CHG-2408?",
+    "answer": "weekly restore verification",
+    "primary_artifact": "change_control/approvals.csv",
+    "cross_check": "scheduler/job_baseline.csv",
+    "reproduce": "Inspect change_control/approvals.csv; filter the record described by Q17 and corroborate using scheduler/job_baseline.csv.",
+    "uniqueness_rationale": "Exact approved scope; catalog replacement not included"
+  },
+  {
+    "id": "Q18",
+    "prompt": "What file record identifier is listed for catalog/current.json?",
+    "answer": "MFT-3344",
+    "primary_artifact": "storage/file_metadata.csv",
+    "cross_check": "windows/security_events.csv",
+    "reproduce": "Inspect storage/file_metadata.csv; filter the record described by Q18 and corroborate using windows/security_events.csv.",
+    "uniqueness_rationale": "Metadata record identifier; does not prove substitution alone"
+  },
+  {
+    "id": "Q19",
+    "prompt": "Which recovery operation is identified as risking in-place overwrite of original catalog evidence?",
+    "answer": "RESTORE-INPLACE-01",
+    "primary_artifact": "recovery/recovery_safety.csv",
+    "cross_check": "storage/file_metadata.csv",
+    "reproduce": "Inspect recovery/recovery_safety.csv; filter the record described by Q19 and corroborate using storage/file_metadata.csv.",
+    "uniqueness_rationale": "Operation with requires_preservation YES"
+  },
+  {
+    "id": "Q20",
+    "prompt": "At what UTC timestamp does the synthetic record show the successful interactive sign-in of mara.ellis?",
+    "answer": "2026-09-22T02:03:04Z",
+    "primary_artifact": "identity/signins.csv",
+    "cross_check": "windows/security_events.csv",
+    "reproduce": "Inspect identity/signins.csv; filter the record described by Q20 and corroborate using windows/security_events.csv.",
+    "uniqueness_rationale": "Exact sign-in timestamp, not inferred incident start"
+  }
+]
