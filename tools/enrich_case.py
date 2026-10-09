@@ -1,5 +1,5 @@
 """Additional synthetic artifacts for EchoTrace 2. No native EVTX/PCAP claims."""
-import csv, json
+import csv, json, hashlib
 from pathlib import Path
 
 def enrich(art: Path):
@@ -22,11 +22,11 @@ def enrich(art: Path):
     rows("recovery/catalog_chunk_claims.csv",[
         ["snapshot","object","chunk_id","claimed_sha256","claim_source"],
         ["SNAP-0922-X","obj-ledger-x","ledger-X-001","8c5b0fa0f983e4b52b114f1e672d5e2bd3bb35f5d7db5ad34b4686d11e49a107","catalog"],
-        ["SNAP-0919-A","obj-ledger-a","ledger-A-001","a4f4d4e8c109b8b99a4d180d1b32e45a2b99d94e7bdb8b7832bb018c0a38a0d1","catalog"]])
+        ["SNAP-0919-A","obj-ledger-a","ledger-A-001",hashlib.sha256(b"FICTIONAL_LEDGER_RECOVERABLE_V1").hexdigest(),"catalog"]])
     rows("recovery/object_integrity_checks.csv",[
         ["snapshot","object","expected_chunk","verified_sha256","result"],
         ["SNAP-0922-X","obj-ledger-x","ledger-X-001","","MISSING_OBJECT"],
-        ["SNAP-0919-A","obj-ledger-a","ledger-A-001","","SEE_OBJECT_CHUNKS_JSON"]])
+        ["SNAP-0919-A","obj-ledger-a","ledger-A-001",hashlib.sha256(b"FICTIONAL_LEDGER_RECOVERABLE_V1").hexdigest(),"PASS"]])
     rows("recovery/recovery_safety.csv",[
         ["operation_id","target","mode","evidence_risk","requires_preservation"],
         ["RESTORE-INPLACE-01","BKP-CTRL-01/catalog/current.json","in-place-overwrite","overwrites_original_catalog_metadata","YES"],
