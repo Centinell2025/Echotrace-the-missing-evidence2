@@ -13,12 +13,14 @@ permissions:
 jobs:
   verify:
     runs-on: ubuntu-latest
-    timeout-minutes: 5
+    timeout-minutes: 15
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
+      - name: Check Python syntax
+        run: python -m compileall -q tools
       - name: Generate evidence
         run: python tools/generate_case.py
       - name: Check educational disclaimer in student archive
@@ -57,6 +59,13 @@ jobs:
           path: build/EchoTrace2_STUDENT_RELEASE.zip
       - name: Confirm instructor PDF was generated (do not publish answer key)
         run: test -s build/instructor/WALKTHROUGH_FINAL.pdf
+      - name: Record execution summary
+        if: always()
+        run: |
+          echo '## EchoTrace 2 forensic CI' >> "$GITHUB_STEP_SUMMARY"
+          echo 'This run checks deterministic synthetic evidence, 20 answers, student release and instructor PDF.' >> "$GITHUB_STEP_SUMMARY"
+          echo 'Native EVTX/PCAP, VM boot and independent blind playtest are separate release gates.' >> "$GITHUB_STEP_SUMMARY"
+          if test -f build/EchoTrace2_STUDENT_RELEASE.zip; then sha256sum build/EchoTrace2_STUDENT_RELEASE.zip >> "$GITHUB_STEP_SUMMARY"; fi
       - name: Check draft is not misrepresented as final
         run: |
           test -f questions/DRAFT_QUESTIONS.md
