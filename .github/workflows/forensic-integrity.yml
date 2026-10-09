@@ -53,11 +53,8 @@ jobs:
         with:
           name: echotrace2-student-release
           path: build/EchoTrace2_STUDENT_RELEASE.zip
-      - name: Upload instructor PDF separately
-        uses: actions/upload-artifact@v4
-        with:
-          name: echotrace2-instructor-walkthrough
-          path: build/instructor/WALKTHROUGH_FINAL.pdf
+      - name: Confirm instructor PDF was generated (do not publish answer key)
+        run: test -s build/instructor/WALKTHROUGH_FINAL.pdf
       - name: Check draft is not misrepresented as final
         run: |
           test -f questions/DRAFT_QUESTIONS.md
