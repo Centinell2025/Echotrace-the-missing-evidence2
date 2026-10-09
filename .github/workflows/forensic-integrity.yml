@@ -25,6 +25,8 @@ jobs:
           unzip -p build/artifacts.zip EDUCATIONAL_USE_NOTICE.txt | grep 'EDUCATIONAL AND AUTHORIZED'
       - name: Verify evidence
         run: python tools/verify_case.py
+      - name: Cross-check backup evidence
+        run: python tools/validate_backup_consistency.py
       - name: Verify deterministic regeneration
         run: |
           sha256sum build/artifacts.zip > /tmp/first.sha
