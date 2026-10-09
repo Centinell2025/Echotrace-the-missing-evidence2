@@ -44,6 +44,20 @@ jobs:
         run: |
           unzip -l build/EchoTrace2_STUDENT_RELEASE.zip
           unzip -p build/EchoTrace2_STUDENT_RELEASE.zip SHA256SUMS.txt | grep artifacts.zip
+      - name: Install PDF renderer
+        run: python -m pip install 'reportlab>=4,<5'
+      - name: Generate instructor walkthrough PDF
+        run: python tools/build_instructor_pdf.py
+      - name: Upload student package
+        uses: actions/upload-artifact@v4
+        with:
+          name: echotrace2-student-release
+          path: build/EchoTrace2_STUDENT_RELEASE.zip
+      - name: Upload instructor PDF separately
+        uses: actions/upload-artifact@v4
+        with:
+          name: echotrace2-instructor-walkthrough
+          path: build/instructor/WALKTHROUGH_FINAL.pdf
       - name: Check draft is not misrepresented as final
         run: |
           test -f questions/DRAFT_QUESTIONS.md
