@@ -1,0 +1,12 @@
+# VM deployment and collection checklist
+- [ ] Confirm OS licensing and approved evaluation images.
+- [ ] Record VM hypervisor, version, guest build and installer checksum.
+- [ ] Isolate the lab network; disable bridge, NAT and host shares.
+- [ ] Create clean snapshots with recorded identifiers.
+- [ ] Install logging configurations and record tool versions.
+- [ ] Generate fictional incident activity without destructive payloads.
+- [ ] Acquire real EVTX and Linux journal/audit exports.
+- [ ] Capture PCAP in the isolated network and validate with tshark.
+- [ ] Record acquisition metadata and SHA-256 for every original.
+- [ ] Ensure final student archive excludes secrets, instructor key and VM images.
+- [ ] Test from a fresh analyst VM without access to instructor materials.
