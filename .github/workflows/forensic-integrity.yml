@@ -40,6 +40,8 @@ jobs:
           sha256sum -c /tmp/first.sha
       - name: Build separated student release
         run: python tools/build_student_release.py
+      - name: Verify student release security and integrity
+        run: python tools/verify_student_release.py
       - name: Inspect student release archive
         run: |
           unzip -l build/EchoTrace2_STUDENT_RELEASE.zip
