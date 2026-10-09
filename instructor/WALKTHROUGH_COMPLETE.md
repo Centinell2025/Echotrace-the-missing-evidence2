@@ -40,4 +40,4 @@ Use `instructor/ANSWER_KEY_FINAL.md` for 20 canonical answers. Each answer must 
 
 ## Release constraints
 
-The case is educational and fictional. Native EVTX, PCAP, VM images and a documented blind playtest are not yet available. This walkthrough is a Markdown instructor procedure, not a finished PDF.
+The case is educational and fictional. Native EVTX, PCAP, VM images and a documented blind playtest are not yet available. This Markdown instructor procedure is the private writeup source. The PDF is generated separately and must be verified before release.
