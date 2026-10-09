@@ -5,12 +5,14 @@
 ## Instructor documents
 - [Complete investigation walkthrough](WALKTHROUGH_COMPLETE.md)
 - [Answer key — 20 canonical answers](ANSWER_KEY_FINAL.md)
+- [DFIR evaluation, scoring rubric and blind playtest](DFIR_EVALUATION_AND_PLAYTEST.md)
 
 ## Student-facing material (without solutions)
 - [Student questions](../questions/STUDENT_QUESTIONS.md)
 - [Synthetic evidence generator](../tools/generate_case.py)
 - [Evidence integrity verifier](../tools/verify_case.py)
 - [Answer reproducibility verifier](../tools/verify_answers.py)
+- [Independent cross-source reasoning verifier](../tools/verify_cross_source_reasoning.py)
 - [Student release validator](../tools/verify_student_release.py)
 - [Ethics and fictional-case notice](../EDUCATIONAL_USE_AND_ETHICS.md)
 
