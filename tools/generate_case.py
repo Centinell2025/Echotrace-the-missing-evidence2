@@ -3,6 +3,7 @@
 from pathlib import Path
 import csv, hashlib, json, zipfile
 from enrich_case import enrich
+from generate_native_pcap import generate as generate_pcap
 from datetime import datetime, timezone
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -86,6 +87,7 @@ Do not attribute any activity to AI without independent evidence.
 """)
     write("EDUCATIONAL_USE_NOTICE.txt", "EXCLUSIVELY FOR EDUCATIONAL AND AUTHORIZED FORENSIC TRAINING. All entities, identities, infrastructure and incidents are fictional or synthetic. No real victim or compromise is represented. Use only isolated lab systems.\n")
     enrich(ART)
+    generate_pcap(ART / "network/synthetic_dns_tcp.pcap")
     manifest = {}
     for p in sorted(ART.rglob("*")):
         if p.is_file():
