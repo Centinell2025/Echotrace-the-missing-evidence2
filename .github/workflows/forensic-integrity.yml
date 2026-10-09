@@ -70,7 +70,7 @@ jobs:
         run: |
           echo '## EchoTrace 2 forensic CI' >> "$GITHUB_STEP_SUMMARY"
           echo 'This run checks deterministic synthetic evidence, 20 answers, student release and instructor PDF.' >> "$GITHUB_STEP_SUMMARY"
-          echo 'Native EVTX/PCAP, VM boot and independent blind playtest are separate release gates.' >> "$GITHUB_STEP_SUMMARY"
+          echo 'Native EVTX, full TLS captures, VM boot and independent blind playtest are separate release gates; synthetic binary PCAP is validated here.' >> "$GITHUB_STEP_SUMMARY"
           if test -f build/EchoTrace2_STUDENT_RELEASE.zip; then sha256sum build/EchoTrace2_STUDENT_RELEASE.zip >> "$GITHUB_STEP_SUMMARY"; fi
       - name: Check draft is not misrepresented as final
         run: |
