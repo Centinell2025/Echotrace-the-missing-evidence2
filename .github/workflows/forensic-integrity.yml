@@ -38,6 +38,12 @@ jobs:
           sha256sum build/artifacts.zip > /tmp/first.sha
           python tools/generate_case.py
           sha256sum -c /tmp/first.sha
+      - name: Build separated student release
+        run: python tools/build_student_release.py
+      - name: Inspect student release archive
+        run: |
+          unzip -l build/EchoTrace2_STUDENT_RELEASE.zip
+          unzip -p build/EchoTrace2_STUDENT_RELEASE.zip SHA256SUMS.txt | grep artifacts.zip
       - name: Check draft is not misrepresented as final
         run: |
           test -f questions/DRAFT_QUESTIONS.md
