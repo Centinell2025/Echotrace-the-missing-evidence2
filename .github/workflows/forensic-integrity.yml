@@ -1,0 +1,32 @@
+name: Synthetic forensic evidence integrity
+on:
+  push:
+    paths:
+      - 'tools/**'
+      - '.github/workflows/forensic-integrity.yml'
+  pull_request:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Generate evidence
+        run: python tools/generate_case.py
+      - name: Verify evidence
+        run: python tools/verify_case.py
+      - name: Verify deterministic regeneration
+        run: |
+          sha256sum build/artifacts.zip > /tmp/first.sha
+          python tools/generate_case.py
+          sha256sum -c /tmp/first.sha
+      - name: Check draft is not misrepresented as final
+        run: |
+          test -f questions/DRAFT_QUESTIONS.md
+          test -f INSTRUCTOR_NOTES_PRIVATE.md
