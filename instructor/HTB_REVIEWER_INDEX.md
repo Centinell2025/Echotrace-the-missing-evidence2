@@ -1,8 +1,24 @@
-# EchoTrace 2 — Instructor materials
+# EchoTrace 2 — Instructor reviewer index
 
-The instructor walkthrough and 20-answer key are maintained as separate Markdown files in this private repository:
+**EXCLUSIVAMENTE CON FINES EDUCATIVOS.** The case is fictional and uses synthetic forensic evidence. This folder contains solutions; keep access restricted.
 
-- WALKTHROUGH_COMPLETE.md
-- ANSWER_KEY_FINAL.md
+## Instructor documents
+- [Complete investigation walkthrough](WALKTHROUGH_COMPLETE.md)
+- [Answer key — 20 canonical answers](ANSWER_KEY_FINAL.md)
 
-The student evidence is generated from tools/generate_case.py. Do not publish instructor answers to students. All records are synthetic and exclusively educational.
+## Student-facing material (without solutions)
+- [Student questions](../questions/STUDENT_QUESTIONS.md)
+- [Synthetic evidence generator](../tools/generate_case.py)
+- [Evidence integrity verifier](../tools/verify_case.py)
+- [Answer reproducibility verifier](../tools/verify_answers.py)
+- [Student release validator](../tools/verify_student_release.py)
+- [Ethics and fictional-case notice](../EDUCATIONAL_USE_AND_ETHICS.md)
+
+## Review and release
+1. Run `python3 tools/build_student_release.py` from the repository root.
+2. Run `python3 tools/verify_student_release.py`.
+3. Confirm all 20 answers using `python3 tools/verify_answers.py`.
+4. Share student evidence separately from the instructor solutions.
+5. Verify the reviewer can open the provided download links before submitting to HTB.
+
+**Verification boundaries:** Repository file presence is confirmed; this index does not prove a CI PASS, booted virtual machines, independent blind playtest, or HTB acceptance. The generated student package is not stored as an archive in this GitHub repository.
