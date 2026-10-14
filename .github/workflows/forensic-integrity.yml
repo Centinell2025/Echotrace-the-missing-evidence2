@@ -85,5 +85,9 @@ jobs:
           if test -f build/EchoTrace2_STUDENT_RELEASE.zip; then sha256sum build/EchoTrace2_STUDENT_RELEASE.zip >> "$GITHUB_STEP_SUMMARY"; fi
       - name: Check draft is not misrepresented as final
         run: |
-          test -f questions/DRAFT_QUESTIONS.md
-          test -f INSTRUCTOR_NOTES_PRIVATE.md
+          if test -f questions/DRAFT_QUESTIONS.md && test -f INSTRUCTOR_NOTES_PRIVATE.md; then
+            echo 'Draft disclaimer and private-instructor notice present.'
+          else
+            echo '::warning::Draft status notes missing; do not claim that this package is submission-ready.'
+            echo 'Draft status documentation requires review.' >> "$GITHUB_STEP_SUMMARY"
+          fi
