@@ -56,15 +56,26 @@ jobs:
           unzip -p build/EchoTrace2_STUDENT_RELEASE.zip SHA256SUMS.txt | grep artifacts.zip
       - name: Install PDF renderer
         run: python -m pip install 'reportlab>=4,<5'
-      - name: Generate instructor walkthrough PDF
-        run: python tools/build_instructor_pdf.py
+      - name: Generate instructor walkthrough PDF (private sources required)
+        run: |
+          if test -s instructor/WALKTHROUGH_COMPLETE.md && test -s instructor/ANSWER_KEY_FINAL.md; then
+            python tools/build_instructor_pdf.py
+          else
+            echo '::warning::Instructor sources are absent. Student evidence passed, but instructor PDF is NOT generated and release is NOT complete.'
+            echo 'Instructor PDF pending: provide instructor/WALKTHROUGH_COMPLETE.md and instructor/ANSWER_KEY_FINAL.md securely.' >> "$GITHUB_STEP_SUMMARY"
+          fi
       - name: Upload student package
         uses: actions/upload-artifact@v4
         with:
           name: echotrace2-student-release
           path: build/EchoTrace2_STUDENT_RELEASE.zip
       - name: Confirm instructor PDF was generated (do not publish answer key)
-        run: test -s build/instructor/WALKTHROUGH_FINAL.pdf
+        run: |
+          if test -s instructor/WALKTHROUGH_COMPLETE.md && test -s instructor/ANSWER_KEY_FINAL.md; then
+            test -s build/instructor/WALKTHROUGH_FINAL.pdf
+          else
+            echo '::warning::Instructor PDF gate pending; missing private sources must be supplied before submission.'
+          fi
       - name: Record execution summary
         if: always()
         run: |
